@@ -1,67 +1,184 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# Laravel 10 - PostgreSQL Starter Project
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+Project Laravel 10 dengan PostgreSQL sebagai database, dilengkapi dengan authentication, role & permission management, dan fitur e-commerce dasar.
 
-## About Laravel
+## 📋 Requirements
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+- PHP >= 8.1
+- Composer
+- PostgreSQL >= 12
+- Node.js & NPM
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+## 🚀 Instalasi
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+### 1. Clone Repository
 
-## Learning Laravel
+```bash
+git clone <repository-url>
+cd lara-postgre
+```
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+### 2. Install Dependencies
 
-You may also try the [Laravel Bootcamp](https://bootcamp.laravel.com), where you will be guided through building a modern Laravel application from scratch.
+```bash
+# Install PHP dependencies
+composer install
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains over 2000 video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+```
 
-## Laravel Sponsors
+### 3. Setup Environment
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the Laravel [Patreon page](https://patreon.com/taylorotwell).
+```bash
+# Copy file .env.example ke .env
+cp .env.example .env
 
-### Premium Partners
+# Generate application key
+php artisan key:generate
+```
 
-- **[Vehikl](https://vehikl.com/)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Cubet Techno Labs](https://cubettech.com)**
-- **[Cyber-Duck](https://cyber-duck.co.uk)**
-- **[Many](https://www.many.co.uk)**
-- **[Webdock, Fast VPS Hosting](https://www.webdock.io/en)**
-- **[DevSquad](https://devsquad.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel/)**
-- **[OP.GG](https://op.gg)**
-- **[WebReinvent](https://webreinvent.com/?utm_source=laravel&utm_medium=github&utm_campaign=patreon-sponsors)**
-- **[Lendio](https://lendio.com)**
+### 4. Konfigurasi Database PostgreSQL
 
-## Contributing
+Buka file `.env` dan sesuaikan konfigurasi database PostgreSQL:
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+```env
+DB_CONNECTION=pgsql
+DB_HOST=127.0.0.1
+DB_PORT=5432
+DB_DATABASE=nama_database_anda
+DB_USERNAME=postgres
+DB_PASSWORD=password_anda
+```
 
-## Code of Conduct
+> **Catatan:** Pastikan database PostgreSQL sudah dibuat terlebih dahulu sebelum menjalankan migration.
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+### 5. Membuat Database PostgreSQL
 
-## Security Vulnerabilities
+Buat database baru di PostgreSQL:
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+```bash
+# Login ke PostgreSQL
+psql -U postgres
 
-## License
+# Buat database baru
+CREATE DATABASE nama_database_anda;
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
-# starter-laravel-10
+# Keluar dari PostgreSQL
+\q
+```
+
+Atau gunakan pgAdmin atau tools GUI PostgreSQL lainnya untuk membuat database.
+
+### 6. Jalankan Migration
+
+```bash
+php artisan migrate
+```
+
+Migration akan membuat tabel-tabel berikut:
+- `users` - Tabel pengguna
+- `password_reset_tokens` - Token reset password
+- `failed_jobs` - Log job yang gagal
+- `personal_access_tokens` - Token untuk API authentication (Sanctum)
+- `roles` & `permissions` - Tabel role dan permission (Spatie Permission)
+- `model_has_roles` & `model_has_permissions` - Relasi role & permission
+- `products` - Tabel produk
+- `carts` - Tabel keranjang belanja
+- `transactions` - Tabel transaksi
+- `transaction_details` - Detail transaksi
+- `images` - Tabel gambar/foto
+
+### 7. Jalankan Seeder
+
+```bash
+php artisan db:seed
+```
+
+Atau jalankan seeder spesifik:
+
+```bash
+# Seeder untuk roles
+php artisan db:seed --class=RolesTableSeeder
+
+# Seeder untuk permissions
+php artisan db:seed --class=PermissionsTableSeeder
+
+# Seeder untuk user
+php artisan db:seed --class=UserTableSeeder
+```
+
+**Default User Credentials:**
+- Email: `superadmin@gmail.com`
+- Password: `11111111`
+- Role: `admin`
+
+### 8. Setup Storage Link
+
+```bash
+php artisan storage:link
+```
+
+
+### 9. Jalankan Aplikasi
+
+```bash
+php artisan serve
+```
+
+Aplikasi akan berjalan di `http://localhost:8000`
+
+## 📦 Packages yang Digunakan
+
+### Dependencies Utama
+- **Laravel Framework** `^10.10` - Framework PHP
+- **Laravel Fortify** `^1.17` - Authentication backend
+- **Laravel Sanctum** `^3.2` - API authentication
+- **Spatie Laravel Permission** `^5.10` - Role & Permission management
+- **Yajra DataTables** `^10.0` - Server-side DataTables
+
+
+## 🗂️ Struktur Database
+
+### Tabel Utama
+
+#### Users
+Tabel untuk menyimpan data pengguna dengan fitur two-factor authentication.
+
+#### Products
+Tabel untuk menyimpan data produk e-commerce.
+
+#### Carts
+Tabel untuk menyimpan item keranjang belanja pengguna.
+
+#### Transactions
+Tabel untuk menyimpan data transaksi pembelian.
+
+#### Transaction Details
+Tabel detail item yang dibeli dalam setiap transaksi.
+
+#### Images
+Tabel untuk menyimpan path gambar/foto produk atau lainnya.
+
+## 🔐 Authentication & Authorization
+
+Project ini menggunakan:
+- **Laravel Fortify** untuk authentication (login, register, password reset, dll)
+- **Spatie Permission** untuk role-based access control (RBAC)
+
+### Default Roles
+- `admin` - Role administrator dengan semua permission
+
+## 🛠️ Helper Functions
+
+Project ini memiliki custom helper functions yang di-autoload melalui `composer.json`:
+- File: `app/Helper/helpers.php`
+
+## 📝 Catatan Penting
+
+1. **PostgreSQL vs MySQL**: Project ini dikonfigurasi untuk PostgreSQL. Jika ingin menggunakan MySQL, ubah `DB_CONNECTION=mysql` di file `.env` dan sesuaikan konfigurasi database.
+
+2. **File Upload**: Pastikan folder `storage/app/public` memiliki permission yang tepat untuk upload file.
+
+3. **Environment**: Jangan lupa ubah `APP_ENV=production` dan `APP_DEBUG=false` saat deploy ke production.
+
+4. **Security**: Ganti `APP_KEY` dan semua credentials default sebelum deploy ke production.
+
