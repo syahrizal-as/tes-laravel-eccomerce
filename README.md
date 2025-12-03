@@ -14,8 +14,8 @@ Project Laravel 10 dengan PostgreSQL sebagai database, dilengkapi dengan authent
 ### 1. Clone Repository
 
 ```bash
-git clone <repository-url>
-cd lara-postgre
+git clone https://github.com/syahrizal-as/tes-laravel-eccomerce.git
+cd tes-laravel-eccomerce
 ```
 
 ### 2. Install Dependencies

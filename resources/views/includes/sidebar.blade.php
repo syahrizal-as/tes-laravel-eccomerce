@@ -59,42 +59,51 @@
                 <div data-i18n="Dashboards">Dashboard</div>
             </a>
         </li>
-        @if (auth()->user()->can('transaction.index') ||
-                auth()->user()->can('po-kitchen.index') ||
-                auth()->user()->can('po-rph.index'))
-            <li
-                class="menu-item {{ setActive('dashboard/transaction*') . setActive('dashboard/po-rph*') . setActive('dashboard/po-kitchen*') }}">
+        @if (auth()->user()->can('product.index') || auth()->user()->can('image.index'))
+            <li class="menu-item {{ setActive('dashboard/master-data*') }}">
                 <a href="javascript:void(0);" class="menu-link menu-toggle">
                     <i class="menu-icon tf-icons bx bx-food-menu"></i>
+                    <div data-i18n="Master Data">Master Data</div>
+                </a>
+                <ul class="menu-sub">
+                    @can('product.index')
+                        <li class="menu-item {{ setActive('dashboard/master-data/product*') }}">
+                            <a href="{{ route('admin.product.index') }}" class="menu-link">
+                                <div data-i18n="Product">Product</div>
+                            </a>
+                        </li>
+                    @endcan
+                    @can('image.index')
+                        <li class="menu-item {{ setActive('dashboard/master-data/image*') }}">
+                            <a href="{{ route('admin.image.index') }}" class="menu-link">
+                                <div data-i18n="Image">Image</div>
+                            </a>
+                        </li>
+                    @endcan
+                </ul>
+            </li>
+        @endif
+
+        @if (auth()->user()->can('transaction.index'))
+            <li class="menu-item {{ setActive('dashboard/transaction*') }}">
+                <a href="javascript:void(0);" class="menu-link menu-toggle">
+                    <i class="menu-icon tf-icons bx bx-dollar"></i>
                     <div data-i18n="Transaction">Transaction</div>
                 </a>
                 <ul class="menu-sub">
                     @can('transaction.index')
                         <li class="menu-item {{ setActive('dashboard/transaction*') }}">
                             <a href="{{ route('admin.transaction.index') }}" class="menu-link">
-                                <div data-i18n="Sales Order">Sales Order</div>
+                                <div data-i18n="Transaction">Transaction</div>
                             </a>
                         </li>
                     @endcan
-                    @can('po-kitchen.index')
-                        <li class="menu-item  {{ setActive('dashboard/po-kitchen*') }}">
-                            <a href="{{ route('admin.po-kitchen.index') }}" class="menu-link">
-                                <div data-i18n="Po Kitchen">Po Kitchen</div>
-                            </a>
-                        </li>
-                    @endcan
-                    @can('po-rph.index')
-                        <li class="menu-item  {{ setActive('dashboard/po-rph*') }}">
-                            <a href="{{ route('admin.po-rph.index') }}" class="menu-link">
-                                <div data-i18n="Po Rph">Po Rph</div>
-                            </a>
-                        </li>
-                    @endcan
-
-
                 </ul>
             </li>
         @endif
+
+
+
 
 
 

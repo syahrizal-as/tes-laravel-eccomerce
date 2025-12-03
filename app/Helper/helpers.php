@@ -25,7 +25,7 @@ if (! function_exists('moneyFormat')) {
     {
         $nominal = str_replace('.', '', $str ?? 0);
 
-        return 'Rp. '.number_format($nominal, '0', '', '.');
+        return number_format($nominal, '0', '', '.');
     }
 }
 
